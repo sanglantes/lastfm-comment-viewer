@@ -7,6 +7,7 @@
 // @match        https://www.last.fm/music/*
 // @match        https://www.last.fm/music/*/*
 // @match        https://www.last.fm/music/*/*/*
+// @match        https://www.last.fm/user/*
 // @grant        GM_xmlhttpRequest
 // ==/UserScript==
 
@@ -17,7 +18,7 @@
 
     function loadComments() {
         const commentLocationUrl = window.location + "/+shoutbox";
-        console.log(commentLocationUrl);
+        if (window.location.pathname.includes("/user/")) return;
         try {
             GM_xmlhttpRequest({
                 method: "GET",
