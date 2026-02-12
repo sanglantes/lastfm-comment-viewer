@@ -7,7 +7,6 @@
 // @match        https://www.last.fm/music/*
 // @match        https://www.last.fm/music/*/*
 // @match        https://www.last.fm/music/*/*/*
-// @icon         https://www.google.com/s2/favicons?sz=64&domain=tampermonkey.net
 // @grant        GM_xmlhttpRequest
 // ==/UserScript==
 
