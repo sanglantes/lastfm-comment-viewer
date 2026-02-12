@@ -3,7 +3,7 @@
 // @namespace    http://last.fm/
 // @version      2026-02-12
 // @description  Directly view and write last.fm comments without having to press "Join the discussion".
-// @author       You
+// @author       pantheon0
 // @match        https://www.last.fm/music/*
 // @match        https://www.last.fm/music/*/*
 // @match        https://www.last.fm/music/*/*/*
