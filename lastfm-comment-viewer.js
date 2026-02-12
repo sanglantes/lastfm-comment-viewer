@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Last.fm comment viewer
-// @namespace    https://www.last.fm/
+// @namespace    http://last.fm/
 // @version      2026-02-12
 // @description  Directly view and write last.fm comments without having to press "Join the discussion".
 // @author       pantheon0
@@ -17,13 +17,12 @@
 
     function loadComments() {
         const commentLocationUrl = window.location + "/+shoutbox";
-
+        console.log(commentLocationUrl);
         try {
             GM_xmlhttpRequest({
                 method: "GET",
                 url: commentLocationUrl,
                 onload: (response) => {
-
                     const parser = new DOMParser();
                     const doc = parser.parseFromString(response.responseText, "text/html");
 
@@ -54,13 +53,16 @@
                     }
 
                     const colMain = document.querySelector("div.col-main.buffer-standard");
-                    if (!colMain) return;
 
-                    const sections = Array.from(colMain.children).filter(el => el.tagName === "SECTION");
-                    if (sections.length < 2) return;
-
-                    const targetSection = sections[sections.length - 3];
-                    targetSection.replaceWith(cleanedContainer);
+                    const sections = colMain ? Array.from(colMain.children).filter(el => el.tagName === "SECTION") : [];
+                    if (sections.length >= 2) {
+                        const targetSection = sections[sections.length - 3];
+                        targetSection.replaceWith(cleanedContainer);
+                    } else {
+                        const joinButton = document.querySelector('a.btn-shouts-join');
+                        if (!joinButton) return;
+                        joinButton.insertAdjacentElement('beforebegin', cleanedContainer);
+                    }
 
                     const form = cleanedContainer.querySelector('form.js-post-shout');
                     if (form) {
@@ -91,10 +93,10 @@
                                 })
                                 .then(res => {
                                     if (res.ok) {
-                                        // we simply refresh the page to view the updated comments.
                                         window.location.reload();
+                                    } else {
+                                        console.log('Failed to post shout', res.status);
                                     }
-                                    else { console.log('Failed to post shout', res.status); }
                                 })
                                 .catch(err => console.log('Error posting shout', err));
                             });
@@ -109,13 +111,15 @@
         }
     }
 
-    // SPA hack :P
     let lastUrl = location.href;
 
     const runOnNavigation = () => {
         if (location.href === lastUrl) return;
         lastUrl = location.href;
-        loadComments();
+
+        setTimeout(() => {
+            loadComments();
+        }, 1500);
     };
 
     const pushState = history.pushState;
