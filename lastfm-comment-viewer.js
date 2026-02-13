@@ -120,7 +120,7 @@
 
         setTimeout(() => {
             loadComments();
-        }, 1500);
+        }, 1300);
     };
 
     const pushState = history.pushState;
