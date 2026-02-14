@@ -19,6 +19,8 @@
     function loadComments() {
         const commentLocationUrl = window.location + "/+shoutbox";
         if (window.location.pathname.includes("/user/")) return;
+        const btn = document.querySelector(".btn-shouts-join.btn-primary");
+        if (btn && btn.textContent.includes("Start")) return;
         try {
             GM_xmlhttpRequest({
                 method: "GET",
