@@ -15,7 +15,7 @@
 (function() {
     'use strict';
 
-    if (window.location.pathname.includes("+shoutbox") || window.location.pathname.includes("shoutbox")) return;
+    if (window.location.pathname.includes("shoutbox")) return;
 
     function loadComments() {
         let commentLocationUrl;
