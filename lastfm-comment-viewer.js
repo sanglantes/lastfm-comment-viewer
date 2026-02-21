@@ -8,16 +8,22 @@
 // @match        https://www.last.fm/music/*/*
 // @match        https://www.last.fm/music/*/*/*
 // @match        https://www.last.fm/user/*
+// @match        https://www.last.fm/tag/*
 // @grant        GM_xmlhttpRequest
 // ==/UserScript==
 
 (function() {
     'use strict';
 
-    if (window.location.pathname.includes("+shoutbox")) return;
+    if (window.location.pathname.includes("+shoutbox") || window.location.pathname.includes("shoutbox")) return;
 
     function loadComments() {
-        const commentLocationUrl = window.location + "/+shoutbox";
+        let commentLocationUrl;
+        if (window.location.pathname.includes("/tag/")) {
+            commentLocationUrl = window.location + "/shoutbox"
+        } else {
+            commentLocationUrl = window.location + "/+shoutbox";
+        }
         if (window.location.pathname.includes("/user/")) return;
         const btn = document.querySelector(".btn-shouts-join.btn-primary");
         if (btn && btn.textContent.includes("Start")) return;
